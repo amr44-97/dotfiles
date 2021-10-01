@@ -1,0 +1,41 @@
+Config { font = "xft:Source Code Pro,Font Awesome 5 Free Solid:style=Solid:size=14"
+       , additionalFonts = []
+       , borderColor = "black"
+       , border = TopB
+       , bgColor = "black"
+       , fgColor = "grey"
+       , alpha = 255
+       , position = Top
+       , textOffset = -1
+       , iconOffset = -1
+       , lowerOnStart = True
+       , pickBroadest = False
+       , persistent = False
+       , hideOnStart = False
+       , iconRoot = "."
+       , allDesktops = True
+       , overrideRedirect = True
+       , commands = [ Run Weather "EGPF" ["-t","<station>: <tempC>C",
+                                          "-L","18","-H","25",
+                                          "--normal","green",
+                                          "--high","red",
+                                          "--low","lightblue"] 36000
+                    , Run UnsafeStdinReader 
+                    , Run Network "eth0" ["-L","0","-H","32",
+                                          "--normal","green","--high","red"] 10
+                    , Run Network "eth1" ["-L","0","-H","32",
+                                          "--normal","green","--high","red"] 10
+                    , Run Cpu ["-L","3","-H","50",
+                               "--normal","green","--high","red"] 10
+                    , Run Memory ["-t","Mem: <usedratio>%"] 10
+                    , Run Com "uname" ["-s","-r"] "" 36000
+                    , Run Date "%a %b %_d %Y %I:%M" "date" 10
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = " %UnsafeStdinReader% }{<box type=Bottom width=2 mb=2 color=#ecbe7b><fc=#ecbe7b>%cpu%</fc></box> <box type=Bottom width=2 mb=2 color=#ff6c6b><fc=#ff6c6b>%memory%</fc></box> <box type=Bottom width=2 mb=2 color=#46d9ff><fc=#46d9ff>%date%</fc></box>"
+       
+
+      -- , template =  " %UnsafeStdinReader% | %cpu% | %memory%}\
+       --             \{ <fc=#ee9a00>%date%</fc> | %uname%"
+       }

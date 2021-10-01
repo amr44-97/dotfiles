@@ -1,0 +1,38 @@
+#
+# wm independent hotkeys
+#
+
+
+#### programms
+super + a
+    xfce4-terminal --command 'nnn -e'
+
+super +  bracket{right} 
+    alacritty --command pulsemixer
+super + w
+    firefox 
+
+XF86AudioRaiseVolume
+              amixer set Master 5%+
+
+
+XF86AudioLowerVolume
+              amixer set Master 5%-
+
+XF86AudioMute
+             amixer set Master toggle
+
+
+control + shift + F3
+     	xbacklight -inc 5
+
+
+
+control + shift + F2
+     	xbacklight -dec 5
+
+super + o
+	clipmenu
+
+super + v
+	mpv $(xclip -o)
