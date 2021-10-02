@@ -1,7 +1,0 @@
-
-xmonad.hs:204:27: warning: [-Wdeprecations]
-    In the use of ‘spacing’ (imported from XMonad.Layout.Spacing):
-    Deprecated: "Use spacingRaw instead."
-    |
-204 | myLayout = avoidStruts ( (spacing 2 $ tiled) ||| Mirror tiled ||| Full)
-    |                           ^^^^^^^
