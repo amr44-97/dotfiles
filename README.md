@@ -15,9 +15,9 @@
 8. dwm-cyclelayouts
 9. dwm-bottomstack
 ----------------------
-![screenshot1]()
+![screenshot1](https://raw.githubusercontent.com/amr44-97/Dotfiles/main/dwm/screenshot1.png)
 ---------------------------
-![screenshot2]()
+![screenshot2](https://raw.githubusercontent.com/amr44-97/Dotfiles/main/dwm/screenshot2.png)
 -------------------
 ## polybar
 
