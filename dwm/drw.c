@@ -45,7 +45,7 @@ drw_free(Drw *drw)
 {
 	XFreePixmap(drw->dpy, drw->drawable);
 	XFreeGC(drw->dpy, drw->gc);
-	drw_font_free(drw->font);
+    drw_font_free(drw->font);
 	free(drw);
 }
 

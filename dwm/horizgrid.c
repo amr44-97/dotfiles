@@ -30,4 +30,3 @@ horizgrid(Monitor *m) {
 		}
 	}
 }
-

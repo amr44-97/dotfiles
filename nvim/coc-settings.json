@@ -1,0 +1,103 @@
+"languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "args": ["--log-file=/tmp/ccls.log", "-v=1"],
+      "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
+      "rootPatterns": [".ccls", "compile_commands.json"],
+      "initializationOptions": {
+         "cache": {
+           "directory": "/tmp/ccls"
+         },
+         "client": {
+          "snippetSupport": true
+         }
+       }
+    }
+  }
+  "initializationOptions": {
+  // ...
+  // This will re-index the file on buffer change which is definitely a performance hit. See if it works for you
+  "index": {
+    "onChange": true
+  },
+  // This is mandatory!
+  "highlight": { "lsRanges" : true }
+}
+
+{
+  "languageserver": {
+    "go": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod"],
+      "trace.server": "verbose",
+      "filetypes": ["go"]
+    }
+  }
+}
+
+
+
+{
+  "sumneko-lua.enable": {
+    "type": "boolean",
+    "default": true,
+    "description": "Enable coc-sumneko-lua extension"
+  },
+  "sumneko-lua.prompt": {
+    "type": "boolean",
+    "default": true,
+    "description": "Prompt when server is not found or when server can be updated"
+  },
+  "sumneko-lua.locale": {
+    "type": "string",
+    "default": "en-us",
+    "enum": ["en-us", "zh-cn"],
+    "description": "The localized language used",
+    "enumDescriptions": ["`\"en-us\"` In English", "`\"zh-cn\"` In Chinese"]
+  },
+  "sumneko-lua.logPath": {
+    "type": "string",
+    "default": "",
+    "description": "The log path"
+  },
+  "sumneko-lua.enableNvimLuaDev": {
+    "type": "boolean",
+    "default": false,
+    "description": "Enable the nvim lua development"
+  },
+  "sumneko-lua.checkUpdate": {
+    "type": "boolean",
+    "default": true,
+    "description": "Automatically check for updates after startup"
+  },
+  "sumneko-lua.inlayHints.typeHintsPrefix": {
+    "type": "string",
+    "default": "« ",
+    "description": "Prefix for type hints"
+  },
+  "sumneko-lua.inlayHints.paramHintsPrefix": {
+    "type": "string",
+    "default": "» ",
+    "description": "Prefix for parameter hints"
+  },
+  "sumneko-lua.inlayHints.trimSemicolon": {
+    "type": "boolean",
+    "default": true,
+    "description": "Trim Semicolon"
+  },
+  "sumneko-lua.inlayHints.refreshOnInsertMode": {
+    "type": "boolean",
+    "default": false,
+    "description": "Whether to refresh inlayHints on insert mode"
+  }
+}
+
+
+
+"languageserver": {
+  "bash": {
+    "command": "bash-language-server",
+    "args": ["start"],
+    "filetypes": ["sh"]
+  }
+}

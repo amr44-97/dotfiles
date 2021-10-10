@@ -4,9 +4,10 @@
 
 
 nitrogen --restore &
+dwmblocks &
 nm-applet &
 synclient TouchpadOff=1 &
-emacs -daemon &
+lxsession &
 picom --experimental-backends &
 setxkbmap -layout us,ara -option grp:lalt_lshift_toggle &
 sxhkd -c ~/.config/sxhkd/sxhkd-dwm &

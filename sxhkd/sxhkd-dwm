@@ -16,7 +16,7 @@ super + Escape
      pkill -USR1 -x sxhkd
 
 super +  e 
-   emacsclient -c
+   xfce4-terminal -e nvim
 
 super + d 
      thunar
@@ -25,23 +25,23 @@ super + control + r
      polybar -r void
 
 XF86AudioRaiseVolume
-              amixer set Master 5%+
+       kill -44 $(pidof dwmblocks)|amixer set Master 5%+
 
 
 XF86AudioLowerVolume
-              amixer set Master 5%-
+              kill -44 $(pidof dwmblocks)|amixer set Master 5%-
 
 XF86AudioMute
-             amixer set Master toggle
+             kill -44 $(pidof dwmblocks)|amixer set Master toggle
 
 
 control + shift + F3
-     	xbacklight -inc 5
+     	kill -44 $(pidof dwmblocks)|xbacklight -inc 5
 
 
 
 control + shift + F2
-     	xbacklight -dec 5
+     	kill -44 $(pidof dwmblocks)|xbacklight -dec 5
 
 super + o
 	clipmenu
