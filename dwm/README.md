@@ -14,6 +14,6 @@ dwm - dynamic window manager
 + dwm-cyclelayouts
 + dwm-colorbar
 + dwm-systray
-+ dwm-statuscolors
+
 
 
