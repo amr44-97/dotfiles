@@ -31,13 +31,13 @@
 + st-title-parsing-fix
 
 --------------------------------
-![screenshot1]()
+![screenshot1](https://raw.githubusercontent.com/amr44-97/Dotfiles/main/dwm-arch.png)
 --------------------------------
-![screenshot2]()
+![screenshot2](https://raw.githubusercontent.com/amr44-97/Dotfiles/main/dwm-emacs.png)
 --------------------------------
-![screenshot3]()
+![screenshot3](https://raw.githubusercontent.com/amr44-97/Dotfiles/main/dwm-neovim.png)
 --------------------------------
-![screenshot4]()
+![screenshot4](https://raw.githubusercontent.com/amr44-97/Dotfiles/main/screenshot4.png)
 -------------------------------
 
 
