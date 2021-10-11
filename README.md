@@ -1,41 +1,43 @@
-# Dotfiles
 
-## dwm
----------------------
-### dwm-polybar
+# My Setup
+- dwm + st + xfce4-terminal + nvim + emacs 
 
+
+### dwm
+### Patches applied
++ dwm-alternatives 
++ dwm-bottomstack
++ dwm-cfacts
++ dwm-fullgaps
++ dwm-horizgrid
++ dwm-namedscratchpads
++ dwm-pango
++ dwm-scratchpad
++ dwm-statuscolors
++ dwm-cyclelayouts
++ dwm-colorbar
++ dwm-systray
++ dwm-statuscolors
+
+### st terminal
 #### Patches applied
-1. dwm-cfacts
-2. dwm-cool-autostart
-3. dwm-anybar-polybar-tray-fix
-4. dwm-ipc
-5. dwm-pango
-6. dwm-dwmc
-7. dwm-horizgrid
-8. dwm-cyclelayouts
-9. dwm-bottomstack
-----------------------
-![screenshot1](https://raw.githubusercontent.com/amr44-97/Dotfiles/main/dwm/screenshot1.png)
----------------------------
-![screenshot2](https://raw.githubusercontent.com/amr44-97/Dotfiles/main/dwm/screenshot2.png)
--------------------
-## polybar
++ st-anysize
++ st-clipboard
++ st-csi-22-23
++ st-cyclefonts
++ st-dynamic-cursor-color
++ st-keyboard-select
++ st-scrollback
++ st-title-parsing-fix
 
-You need to compile polybar with a dwm-module so tags and other stuff work properly
-
-follow instructions in [polybar-dwm-module](https://github.com/mihirlad55/polybar-dwm-module)
-
-any changes to the bar (colors, tags,...) are through the polybar config file.
-
---------------------
-add **dwm.desktop** to  /usr/share/xsessions/
----------------------
-````````
-[Desktop Entry]
-Name=dwm
-Comment=The Dynamic Window Manager
-Exec=/PATH/to/dwm.sh
-Type=Application
-````````
+--------------------------------
+![screenshot1]()
+--------------------------------
+![screenshot2]()
+--------------------------------
+![screenshot3]()
+--------------------------------
+![screenshot4]()
+-------------------------------
 
 
