@@ -1,7 +1,7 @@
 syntax enable 
 
 
-set clipboard+=unnamedplus
+set clipboard=unnamedplus
 filetype plugin indent on
 set guifont=Source\Code\Pro\Bold
 set encoding=utf-8
@@ -34,9 +34,9 @@ call plug#begin('~/.vim/plugged')
 Plug 'neovim/nvim-lspconfig'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'itchyny/lightline.vim'
-Plug 'norcalli/nvim-colorizer.lua'
 Plug 'vim-syntastic/syntastic'
 Plug 'morhetz/gruvbox'
+Plug 'norcalli/nvim-colorizer.lua'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf'
 Plug 'liuchengxu/vim-which-key'
@@ -50,17 +50,29 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'mcchrish/nnn.vim'
 Plug 'wolfgangmehner/lua-support'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'vimwiki/vimwiki'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'nvim-lua/telescope.nvim'
 Plug 'glepnir/dashboard-nvim'
 call plug#end()
 
+tnoremap <Esc> <C-\><C-n>
 
 luafile /home/amr/.config/nvim/lua/plug-colorizer.lua
 
 """"""""" Theme
 colorscheme molokai 
 let mapleader = ";"
+"""""""""""""""""'' Terminal """""""""""""
+
+tnoremap <A-h> <C-\><C-N><C-w>h
+tnoremap <A-j> <C-\><C-N><C-w>j
+tnoremap <A-k> <C-\><C-N><C-w>k
+tnoremap <A-l> <C-\><C-N><C-w>l
+inoremap <A-h> <C-\><C-N><C-w>h
+inoremap <A-j> <C-\><C-N><C-w>j
+inoremap <A-k> <C-\><C-N><C-w>k
+inoremap <A-l> <C-\><C-N><C-w>l
 
 
 let g:dashboard_default_executive ='telescope'
@@ -74,6 +86,7 @@ let g:dashboard_custom_shortcut={
 \ 'find_word'          : 'SPC f a',
 \ 'book_marks'         : 'SPC f b',
 \ }
+
 
 
 
@@ -124,7 +137,7 @@ let g:cpp_class_decl_highlight = 1
 
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+     \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 

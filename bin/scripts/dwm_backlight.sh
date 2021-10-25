@@ -7,7 +7,8 @@
 # Dependencies: xbacklight
 
 dwm_backlight () {
-    printf "%s🪔%.0f%s\n" "$SEP1" "$(xbacklight)" "$SEP2"
+    #printf "^b#1e222a^^c#abb2bf^🪔%.0f%s\n" "$(xbacklight)" #"$SEP2"
+    printf "^b#4a2c7d^^c#abb2bf^ %0.f%s\n" $(xbacklight)
 }
 
 dwm_backlight

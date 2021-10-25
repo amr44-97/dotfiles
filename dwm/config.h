@@ -1,7 +1,7 @@
 // /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx            = 5;        /* border pixel of windows */
+static const unsigned int borderpx            = 3;        /* border pixel of windows */
 static const unsigned int gappx               = 5;        /* gaps between windows */
 static const unsigned int snap                = 32;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
@@ -11,39 +11,48 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar                      = 1;        /* 0 means no bar */
 static const int topbar                       = 1;        /* 0 means bottom bar */
-static const char font[]                      = "Source Code Pro Bold 12";
-static const char dmenufont[]                 = "Source Code Pro:style=Bold:size=12";
+static const char font[]                      = "JetBrainsMono Nerd Font Bold 10";
+static const char dmenufont[]                 = "JetBrainsMono Nerd Font:style=Bold:size=12";
 static const char col_gray1[]                 = "#222222";
 static const char col_gray2[]                 = "#444444";
 static const char col_gray3[]                 = "#bbbbbb";
 static const char col_gray4[]                 = "#1d9ccf" ;   //"#eeeeee";
 static const char col_cyan[]                  = "#2b2d2e";//"#304a52";
-static const char col_black[]                 = "#000000";
+static const char col_black[]                 = "#1e222a";
+static const char col_gentoo[]                = "#7651ad";
+static const char col_gentoo2[]               = "#4e3e66";
 static const char col_red[]                   = "#ff0000";
 static const char col_yellow[]                = "#ffff00";
 static const char col_white[]                 = "#ffffff";
 
 static const char *colors[][3]      = {
 	/*			     		fg         bg          border   */
-[SchemeNorm]       =	 { col_gray3, col_gray1,  col_gray2  },
-[SchemeSel]        =	 { col_gray4, col_cyan,   col_cyan   },
+[SchemeNorm]       =	 { col_gray3, col_black,  col_cyan       },
+[SchemeSel]        =	 { col_gray4, col_cyan,   col_gentoo     },
+[SchemeHid]        =     { col_black,  col_gray3, col_yellow    },
 [SchemeWarn]       =	 { col_black, col_yellow, col_red    },
 [SchemeUrgent]     =	 { col_white, col_red,    col_red    },
 [SchemeStatus]     =     { col_gray3, col_gray1,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
-[SchemeTagsSel]    =     { col_gray4, col_cyan,  "#000000"   }, // Tagbar left selected {text,background,not used but cannot be empty}
+[SchemeTagsSel]    =     { col_gentoo, col_cyan,  "#000000"   }, // Tagbar left selected {text,background,not used but cannot be empty}
 [SchemeTagsNorm]   =     { col_gray3, col_gray1,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-[SchemeInfoSel]    =     { col_gray4, col_cyan,  "#000000"   }, // infobar middle  selected {text,background,not used but cannot be empty}
+[SchemeInfoSel]    =     { col_gray4, col_black,  "#000000"   }, // infobar middle  selected {text,background,not used but cannot be empty}
 [SchemeInfoNorm]   =     { col_gray3, col_gray1,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 };
 
-
-
-
-
+static const char *const autostart[] = {
+    "dwmblocks" , NULL,
+    "clipmenud" , NULL,
+    //"nm-applet", NULL,
+    "nitrogen", "--restore" , NULL,
+    "setxkbmap", "-layout", "us,ara", "-option", "grp:lalt_lshift_toggle" ,NULL, 
+    "sh" ,"-c" ,"sxhkd -c ~/.config/sxhkd/sxhkd-dwm", NULL,
+	NULL /* terminate */
+};
 /* tagging */
 static const char *tagsalt[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-static const char *tags[] = { " ", "2", "3", "4","5", "6","7", "8", "9"};
+static const char *tags[] = { "1", "2", "3", "4","5", "6","7", "8", "9"};
 static const int momentaryalttags = 0; /* 1 means alttags will show only when key is held down*/
+
 
 
 static const Rule rules[] = {
@@ -58,9 +67,16 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.50; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+
+//#define XF86MonBrightnessDown 0x1008ff03
+//#define XF86MonBrightnessUp 0x1008ff02
+//
+//static const char *xi[] = {"xbacklight", "-inc", "7", NULL};
+//static const char *xd[] = {"xbacklight", "-dec", "7", NULL};
+
 
 #include "horizgrid.c"
 static const Layout layouts[] = {
@@ -98,24 +114,27 @@ static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+   // {0, XF86MonBrightnessDown, spawn, {.v = xd}},
+ //   {0, XF86MonBrightnessUp, spawn, {.v = xi}},
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_s,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = +0.25} },
-	{ MODKEY|ShiftMask,             XK_l,      setcfact,       {.f = -0.25} },
-	{ MODKEY|ShiftMask,             XK_o,      setcfact,       {.f =  0.00} },
+	{ ALT,             XK_h,      setcfact,       {.f = +0.25} },
+	{ ALT,             XK_l,      setcfact,       {.f = -0.25} },
+	{ MODKEY|ShiftMask,             XK_j,      inplacerotate,  {.i = +1} },
+	{ MODKEY|ShiftMask,             XK_k,      inplacerotate,  {.i = -1} },
+	{ MODKEY|ShiftMask,             XK_h,      inplacerotate,  {.i = +2} },
+	{ MODKEY|ShiftMask,             XK_l,      inplacerotate,  {.i = -2} },
+	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	//{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	//{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[3]} },
-	//{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_space,  cyclelayout,      {.i = +1} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
@@ -141,10 +160,6 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-
-
-
-
 };
 
 /* button definitions */
@@ -153,6 +168,7 @@ static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
+    { ClkWinTitle,          0,              Button1,        togglewin,      {0} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },

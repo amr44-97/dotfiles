@@ -13,9 +13,8 @@
 + dwm-namedscratchpads
 + dwm-pango
 + dwm-scratchpad
-+ dwm-statuscolors
 + dwm-cyclelayouts
-+ dwm-colorbar
++ status2d (for colors in bar)
 + dwm-systray
 + dwm-statuscolors
 

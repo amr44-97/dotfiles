@@ -12,13 +12,11 @@ dwm_battery () {
     CHARGE=$(acpi | awk '{print $4}' | sed 's/%,//')
     STATUS=$(cat /sys/class/power_supply/BAT1/status)
 
-    printf "%s" "$SEP1"
         if [ "$STATUS" = "Charging" ]; then
-            printf "🔌 %s%% %s" "$CHARGE" "$STATUS"
+            printf "^b#1e222a^^c#7eca9c^🔌 %s%% %s" "$CHARGE" "$STATUS"
         else
-            printf "🔋 %s%% %s" "$CHARGE" "$STATUS"
+            printf "^b#1e222a^^c#7eca9c^ %s%% %s" "$CHARGE" "$STATUS"
         fi
-    printf "%s\n" "$SEP2"
     crit=$(bat)
     if [[ $crit -lt 25 ]]; then
             dunstify -u critical "☢  battery is critical"  #-h string:bgcolor:#e80e0e "battery is critical"

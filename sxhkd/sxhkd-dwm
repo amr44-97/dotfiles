@@ -4,25 +4,31 @@
 
 
 #### programms
-super + a
+super + shift + a
     xfce4-terminal --command 'nnn -e'
+super + a 
+    alacritty --command nnn -e
 
 super +  bracket{right} 
-    alacritty --command pulsemixer
+     alacritty --command pulsemixer
 super + w
-    firefox 
+    firefox-bin 
 
 super + Escape
      pkill -USR1 -x sxhkd
 
-super +  e 
-   xfce4-terminal -e nvim
+
+super + e
+	emacs
+
+super +  semicolon 
+   st -e nvim
 
 super + d 
      thunar
 
-super + control + r
-     polybar -r void
+#super + control + r
+#     polybar -r void
 
 XF86AudioRaiseVolume
        kill -44 $(pidof dwmblocks)|amixer set Master 5%+
