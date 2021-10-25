@@ -30,7 +30,7 @@
 + st-title-parsing-fix
 
 --------------------------------
-![screenshot1](https://raw.githubusercontent.com/amr44-97/Dotfiles/main/dwm-arch.png)
+![screenshot1](https://raw.githubusercontent.com/amr44-97/Dotfiles/main/screenshots/dwm-gentoo.png)
 --------------------------------
 ![screenshot2](https://raw.githubusercontent.com/amr44-97/Dotfiles/main/dwm-emacs.png)
 --------------------------------
