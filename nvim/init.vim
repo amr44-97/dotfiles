@@ -54,14 +54,18 @@ Plug 'vimwiki/vimwiki'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'nvim-lua/telescope.nvim'
 Plug 'glepnir/dashboard-nvim'
+Plug 'romgrk/doom-one.vim'
 call plug#end()
 
 tnoremap <Esc> <C-\><C-n>
 
 luafile /home/amr/.config/nvim/lua/plug-colorizer.lua
 
+
+
 """"""""" Theme
-colorscheme molokai 
+colorscheme doom-one "molokai 
+let g:doom_one_terminal_colors = v:true
 let mapleader = ";"
 """""""""""""""""'' Terminal """""""""""""
 
@@ -115,6 +119,7 @@ nnoremap <leader>s <cmd>NERDTree <CR>
 nnoremap <A-t> :tabnew <CR>
 nnoremap <A-q> :tabprev <CR>
 nnoremap <A-e> :tabnext <CR>
+nnoremap <A-d> :belowright new term://bash<CR>
 nnoremap <A-c> :tabclose <CR>
 nnoremap <C-s>:source %<CR>
 nnoremap <silent>dq <cmd>:q!<CR>
