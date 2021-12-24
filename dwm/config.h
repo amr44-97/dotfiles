@@ -2,7 +2,7 @@
 
 /* appearance */
 static const unsigned int borderpx            = 3;        /* border pixel of windows */
-static const unsigned int gappx               = 5;        /* gaps between windows */
+static const unsigned int gappx               = 3;        /* gaps between windows */
 static const unsigned int snap                = 32;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft = 0;   	/* 0: systray in the right corner, >0: systray on left of status text */
@@ -11,7 +11,7 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar                      = 1;        /* 0 means no bar */
 static const int topbar                       = 1;        /* 0 means bottom bar */
-static const char font[]                      = "JetBrainsMono Nerd Font Bold 10";
+static const char font[]                      = "JetBrainsMono Nerd Font Bold 12";
 static const char dmenufont[]                 = "JetBrainsMono Nerd Font:style=Bold:size=12";
 static const char col_gray1[]                 = "#222222";
 static const char col_gray2[]                 = "#444444";
@@ -23,26 +23,28 @@ static const char col_gentoo[]                = "#7651ad";
 static const char col_gentoo2[]               = "#4e3e66";
 static const char col_red[]                   = "#ff0000";
 static const char col_yellow[]                = "#ffff00";
+static const char col_blue[]                  = "#7aa2f7";
 static const char col_white[]                 = "#ffffff";
 
 static const char *colors[][3]      = {
 	/*			     		fg         bg          border   */
 [SchemeNorm]       =	 { col_gray3, col_black,  col_cyan       },
-[SchemeSel]        =	 { col_gray4, col_cyan,   col_gentoo     },
+[SchemeSel]        =	 { col_gray4, col_black,   col_gentoo     },
 [SchemeHid]        =     { col_black,  col_gray3, col_yellow    },
 [SchemeWarn]       =	 { col_black, col_yellow, col_red    },
 [SchemeUrgent]     =	 { col_white, col_red,    col_red    },
 [SchemeStatus]     =     { col_gray3, col_gray1,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
 [SchemeTagsSel]    =     { col_gentoo, col_cyan,  "#000000"   }, // Tagbar left selected {text,background,not used but cannot be empty}
-[SchemeTagsNorm]   =     { col_gray3, col_gray1,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-[SchemeInfoSel]    =     { col_gray4, col_black,  "#000000"   }, // infobar middle  selected {text,background,not used but cannot be empty}
-[SchemeInfoNorm]   =     { col_gray3, col_gray1,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
+[SchemeTagsNorm]   =     { col_gray3, col_black,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+[SchemeInfoSel]    =     { col_blue, col_black,  "#000000"   }, // infobar middle  selected {text,background,not used but cannot be empty}
+[SchemeInfoNorm]   =     { col_gray3, col_black,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 };
 
 static const char *const autostart[] = {
     "dwmblocks" , NULL,
     "clipmenud" , NULL,
-    //"nm-applet", NULL,
+    "picom","--experimental-backends" , NULL,
+    "nm-applet", NULL,
     "nitrogen", "--restore" , NULL,
     "setxkbmap", "-layout", "us,ara", "-option", "grp:lalt_lshift_toggle" ,NULL, 
     "sh" ,"-c" ,"sxhkd -c ~/.config/sxhkd/sxhkd-dwm", NULL,
@@ -61,9 +63,11 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor    scratch key */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1,        0  },
-//	{ "firefox",  NULL,       NULL,       1 << 8,       0,           -1,        0  },
-	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,       's' },
+
+	/* class      instance    title       tags mask     isfloating   monitor    float x,y,w,h         floatborderpx  scratch key */
+	{ "Gimp",     NULL,       NULL,       0,            1,           -1,        50,50,500,500,         5,                 0 },
+	{ "Firefox",  NULL,       NULL,       0,            0,           -1,        50,50,100,100,         10,                0 },
+	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,        0,0,1950,500,          1,                's'},
 };
 
 /* layout(s) */
@@ -99,23 +103,26 @@ static const Layout layouts[] = {
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
+
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "alacritty", NULL };
+static const char *clipcmd[] = { "clipmenu", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *termcmd[]  = { "alacritty","--command","fish", NULL };
 
 /*First arg only serves to match against key in rules*/
-static const char *scratchpadcmd[] = {"s", "alacritty", "-t", "scratchpad", NULL}; 
+static const char *scratchpadcmd[] = {"s", "alacritty" ,"-t", "scratchpad","--command" , "fish", NULL}; 
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-   // {0, XF86MonBrightnessDown, spawn, {.v = xd}},
- //   {0, XF86MonBrightnessUp, spawn, {.v = xi}},
+	{ MODKEY,                       XK_o,      spawn,          {.v = clipcmd } },
+// {0, XF86MonBrightnessDown, spawn, {.v = xd}},
+// //   {0, XF86MonBrightnessUp, spawn, {.v = xi}},
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
