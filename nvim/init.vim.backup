@@ -3,7 +3,7 @@ syntax enable
 
 set clipboard=unnamedplus
 filetype plugin indent on
-set guifont=Source\Code\Pro\Bold\:h17
+set guifont=Source\Code\Pro\Bold
 set encoding=utf-8
 set nohlsearch
 set termguicolors
@@ -36,12 +36,7 @@ Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'itchyny/lightline.vim'
 Plug 'vim-syntastic/syntastic'
 Plug 'morhetz/gruvbox'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'norcalli/nvim-colorizer.lua'
-Plug 'alaviss/nim.nvim'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf'
 Plug 'liuchengxu/vim-which-key'
@@ -60,11 +55,6 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend upda
 Plug 'nvim-lua/telescope.nvim'
 Plug 'glepnir/dashboard-nvim'
 Plug 'romgrk/doom-one.vim'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-Plug 'ajh17/VimCompletesMe'
 call plug#end()
 
 tnoremap <Esc> <C-\><C-n>
@@ -74,7 +64,7 @@ luafile /home/amr/.config/nvim/lua/plug-colorizer.lua
 
 
 """"""""" Theme
-colorscheme gruvbox "molokai 
+colorscheme doom-one "molokai 
 let g:doom_one_terminal_colors = v:true
 let mapleader = ";"
 """""""""""""""""'' Terminal """""""""""""
@@ -102,9 +92,7 @@ let g:dashboard_custom_shortcut={
 \ }
 
 
-let g:LanguageClient_serverCommands = {
-\   'nim': ['~/.nimble/bin/nimlsp'],
-\ }
+
 
 let g:dashboard_custom_shortcut['last_session'] = ' '
 let g:dashboard_custom_shortcut['find_history'] = 'ﭯ '
@@ -135,7 +123,6 @@ nnoremap <A-d> :belowright new term://bash<CR>
 nnoremap <A-c> :tabclose <CR>
 nnoremap <C-s>:source %<CR>
 nnoremap <silent>dq <cmd>:q!<CR>
-nnoremap <A-w>:w! <CR>
 nnoremap <silent>wq <cmd>:wq<CR>
 nnoremap <silent>sw <cmd>:source ~/.config/nvim/init.vim<CR>
 nnoremap <leader>t :vertical terminal<CR>
@@ -189,42 +176,4 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
     set signcolumn=yes
        endif
 
-"" Nim setup
 
-au User asyncomplete_setup call asyncomplete#register_source({
-    \ 'name': 'nim',
-    \ 'whitelist': ['nim'],
-    \ 'completor': {opt, ctx -> nim#suggest#sug#GetAllCandidates({start, candidates -> asyncomplete#complete(opt['name'], ctx, start, candidates)})}
-    \ })
-
-
-let g:asyncomplete_auto_popup = 0
-
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ asyncomplete#force_refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" allow modifying the completeopt variable, or it will
-" be overridden all the time
-let g:asyncomplete_auto_completeopt = 0
-
-set completeopt=menuone,noinsert,noselect,preview
-
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-
-
-if executable('nimlsp')
-    " pip install python-language-server
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'nimlsp',
-        \ 'cmd': {server_info->['nimlsp']},
-        \ 'allowlist': ['nim'],
-        \ })
-endif
