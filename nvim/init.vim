@@ -1,5 +1,8 @@
 " USE LUA
 set clipboard=unnamedplus
+" USE LUA
+" USE LUA
+" USE LUA
 filetype plugin indent on
 set guifont=Source\Code\Pro\Bold\:h17
 set encoding=utf-8
