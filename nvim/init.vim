@@ -1,3 +1,4 @@
+" USE LUA
 set clipboard=unnamedplus
 filetype plugin indent on
 set guifont=Source\Code\Pro\Bold\:h17
