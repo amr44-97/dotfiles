@@ -1,6 +1,3 @@
-syntax enable 
-
-
 set clipboard=unnamedplus
 filetype plugin indent on
 set guifont=Source\Code\Pro\Bold\:h17
@@ -26,28 +23,25 @@ set noerrorbells
 set mouse=a
 set background=dark
 set title
-set shell=/bin/bash 
-
+set shell=/bin/bash
 
 
 call plug#begin('~/.vim/plugged')
 Plug 'neovim/nvim-lspconfig'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
-Plug 'itchyny/lightline.vim'
+"Plug 'itchyny/lightline.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'fatih/vim-go'
 Plug 'vim-syntastic/syntastic'
 Plug 'morhetz/gruvbox'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'norcalli/nvim-colorizer.lua'
-Plug 'alaviss/nim.nvim'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf'
 Plug 'liuchengxu/vim-which-key'
-Plug 'joshdick/onedark.vim' 
+Plug 'joshdick/onedark.vim'
 Plug 'preservim/nerdtree'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tomasr/molokai'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'hrsh7th/nvim-compe'
@@ -65,6 +59,50 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ 'do': 'bash install.sh',
     \ }
 Plug 'ajh17/VimCompletesMe'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" Rust 
+
+
+Plug 'simrat39/rust-tools.nvim'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-buffer'
+
+" Completion framework
+Plug 'hrsh7th/nvim-cmp'
+
+" LSP completion source for nvim-cmp
+Plug 'hrsh7th/cmp-nvim-lsp'
+
+" Snippet completion source for nvim-cmp
+Plug 'hrsh7th/cmp-vsnip'
+
+" Color scheme used in the GIFs!
+Plug 'arcticicestudio/nord-vim'
+
+""""""""""
+set shortmess+=c
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""" Nim
+Plug 'alaviss/nim.nvim'
+Plug 'prabirshrestha/asyncomplete.vim'
+
+""" Zig
+Plug 'ziglang/zig.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier']  " list of CoC extensions needed
+
+Plug 'jiangmiao/auto-pairs' "this will auto close ( [ {
+
+" these two plugins will add highlighting and indenting to JSX and TSX files.
+Plug 'yuezk/vim-js'
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'maxmellon/vim-jsx-pretty'
+
+
+
 call plug#end()
 
 tnoremap <Esc> <C-\><C-n>
@@ -72,9 +110,8 @@ tnoremap <Esc> <C-\><C-n>
 luafile /home/amr/.config/nvim/lua/plug-colorizer.lua
 
 
-
 """"""""" Theme
-colorscheme gruvbox "molokai 
+colorscheme doom-one
 let g:doom_one_terminal_colors = v:true
 let mapleader = ";"
 """""""""""""""""'' Terminal """""""""""""
@@ -91,6 +128,9 @@ inoremap <A-l> <C-\><C-N><C-w>l
 
 let g:dashboard_default_executive ='telescope'
 
+let g:neovide_transparency=0.95
+
+
 let g:dashboard_custom_shortcut={
 \ 'last_session'       : 'SPC s l',
 \ 'find_history'       : 'SPC f h',
@@ -104,6 +144,7 @@ let g:dashboard_custom_shortcut={
 
 let g:LanguageClient_serverCommands = {
 \   'nim': ['~/.nimble/bin/nimlsp'],
+\   'rust': ['~/.cargo/bin/rust-analyzer'],
 \ }
 
 let g:dashboard_custom_shortcut['last_session'] = ' '
@@ -116,9 +157,39 @@ let g:dashboard_custom_shortcut['book_marks'] = ' '
 
 
 "" Lightline
-let g:lightline = {
-      \ 'colorscheme': 'powerline',
-      \ }
+"let g:lightline = {
+"      \ 'colorscheme': 'powerline',
+"      \ }
+
+"
+"////////////////////// Airline neovim \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+let g:airline#extensions#tabline#enabled = 1 " Enable the list of buffers
+
+let g:airline#extensions#tabline#formatter = 'default'  " f/p/file-name.js
+let g:airline#extensions#tabline#formatter = 'jsformatter' " path-to/f
+let g:airline#extensions#tabline#formatter = 'unique_tail' " file-name.js
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved' " f/p/file-name.js
+
+let g:airline_theme='tomorrow'
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+" powerline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = '☰ '
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.dirty='⚡'
+
+
+
 
 
 " template for some vim commands
@@ -141,7 +212,7 @@ nnoremap <silent>sw <cmd>:source ~/.config/nvim/init.vim<CR>
 nnoremap <leader>t :vertical terminal<CR>
 nnoremap <leader>f <cmd>NnnPicker<cr>
 
-"""""""""""""" NnnPicker 
+"""""""""""""" NnnPicker
 let g:nnn#command = 'nnn -e'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -191,11 +262,11 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 
 "" Nim setup
 
-au User asyncomplete_setup call asyncomplete#register_source({
-    \ 'name': 'nim',
-    \ 'whitelist': ['nim'],
-    \ 'completor': {opt, ctx -> nim#suggest#sug#GetAllCandidates({start, candidates -> asyncomplete#complete(opt['name'], ctx, start, candidates)})}
-    \ })
+"au User asyncomplete_setup call asyncomplete#register_source({
+"    \ 'name': 'nim',
+"    \ 'whitelist': ['nim'],
+"    \ 'completor': {opt, ctx -> nim#suggest#sug#GetAllCandidates({start, candidates -> asyncomplete#complete(opt['name'], ctx, start, candidates)})}
+"    \ })
 
 
 let g:asyncomplete_auto_popup = 0
@@ -228,3 +299,53 @@ if executable('nimlsp')
         \ 'allowlist': ['nim'],
         \ })
 endif
+
+
+
+""""""""""""""""""""""""' Rust 
+
+
+lua <<EOF
+local nvim_lsp = require'lspconfig'
+
+local opts = {
+    tools = { -- rust-tools options
+        autoSetHints = true,
+        hover_with_actions = true,
+        inlay_hints = {
+            show_parameter_hints = false,
+            parameter_hints_prefix = "",
+            other_hints_prefix = "",
+        },
+    },
+
+    -- all the opts to send to nvim-lspconfig
+    -- these override the defaults set by rust-tools.nvim
+    -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
+    server = {
+        -- on_attach is a callback called when the language server attachs to the buffer
+        -- on_attach = on_attach,
+        settings = {
+            -- to enable rust-analyzer settings visit:
+            -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
+            ["rust-analyzer"] = {
+                -- enable clippy on save
+                checkOnSave = {
+                    command = "clippy"
+                },
+            }
+        }
+    },
+}
+
+EOF
+
+"""Setup Completion
+" See https://github.com/hrsh7th/nvim-cmp#basic-configuration
+
+
+
+
+
+
+
