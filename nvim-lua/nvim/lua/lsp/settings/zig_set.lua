@@ -1,0 +1,2 @@
+require'lspconfig'.zls.setup{}
+
