@@ -7,9 +7,9 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 local lspconfig = require('lspconfig')
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { 'sumneko_lua','clangd', 'rust_analyzer', 'pyright', 'tsserver' }
+local servers = { 'sumneko_lua','clangd' ,"zls" } --, 'rust_analyzer', 'pyright', 'tsserver' }
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
+    lspconfig[lsp].setup {
     -- on_attach = my_custom_on_attach,
     capabilities = capabilities,
   }
@@ -29,7 +29,7 @@ require('nvim-autopairs').setup({
     },
   enable_check_bracket_line = false,
   fast_wrap = {
-      map = '<M-e>',
+      map = '<M-w>',
       chars = { '{', '[', '(', '"', "'" },
       pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], '%s+', ''),
       end_key = '$',
@@ -41,5 +41,6 @@ require('nvim-autopairs').setup({
 })
 
 
-
+-- Comment support
+require('Comment').setup()
 

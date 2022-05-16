@@ -8,6 +8,7 @@ M.setup = function()
     { name = "DiagnosticSignHint", text = "" },
     { name = "DiagnosticSignInfo", text = "" },
   }
+
   for _, sign in ipairs(signs) do
     vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
   end
@@ -69,7 +70,7 @@ local function lsp_keymaps(bufnr)
   -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>f", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>f", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
   vim.api.nvim_buf_set_keymap(
     bufnr,
@@ -87,6 +88,16 @@ M.on_attach = function(client, bufnr)
   if client.name == "tsserver" then
     client.resolved_capabilities.document_formatting = false
   end
+  if client.name == "clangd" then
+    client.resolved_capabilities.document_formatting = false
+  end
+  if client.name == "sumneko_lua" then
+    client.resolved_capabilities.document_formatting = false
+  end
+  if client.name == "zls" then
+    client.resolved_capabilities.document_formatting = false
+  end
+
   lsp_keymaps(bufnr)
   lsp_highlight_document(client)
 end
@@ -101,3 +112,6 @@ end
 M.capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 
 return M
+
+
+

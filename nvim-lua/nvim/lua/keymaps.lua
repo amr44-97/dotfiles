@@ -4,8 +4,12 @@ vim.g.mapleader = ';'
 vim.keymap.set('n','<leader>h', ':set hlsearch!<CR>')
 
 
-vim.keymap.set('n','<leader>q', '<cmd>:wq<CR>')
+vim.keymap.set('n','dq', '<cmd>:q!<CR>')
+vim.keymap.set('n','wq', '<cmd>:wq!<CR>')
 vim.keymap.set('n','<leader>s', '<cmd>:NvimTreeToggle<CR>')
+-- buffers
+vim.keymap.set('n','<C-]>', ':bnext<CR>')
+vim.keymap.set('n','<C-[>', ':bprevious<CR>')
 
 -- Tabs
 vim.keymap.set('n','<A-t>', ':tabnew<CR>')

@@ -10,8 +10,9 @@ vim.g.tokyonight_colors = { hint = "orange", error = "#ff0000" }
 -- tokyonight
 -- gruvbox
 
-vim.cmd[[colorscheme gruvbox]]
-
+vim.cmd[[colorscheme tokyonight]]
+vim.cmd[[highlight Normal guibg=none]]
+vim.cmd[[highlight NonText guibg=none]]
 
 -- Lua Line
 require('lualine').setup {

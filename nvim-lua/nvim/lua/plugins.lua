@@ -22,6 +22,7 @@ return require('packer').startup(function(use)
   use 'kyazdani42/nvim-tree.lua'
   use 'morhetz/gruvbox'
   use 'windwp/nvim-autopairs'
+  use 'nvim-lua/plenary.nvim'
 -- colorschemes
   use 'folke/tokyonight.nvim'
   use 'NTBBloodbath/doom-one.nvim'
@@ -33,6 +34,16 @@ return require('packer').startup(function(use)
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate'
     }
+
+-- Comment Support
+    use     'numToStr/Comment.nvim'
+    use 'JoosepAlviste/nvim-ts-context-commentstring'
+
+-- Telescope
+    use 'nvim-telescope/telescope.nvim'
+-- null-ls
+  use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
+
 
 -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
