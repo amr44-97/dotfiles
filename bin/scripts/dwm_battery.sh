@@ -13,14 +13,10 @@ dwm_battery () {
     STATUS=$(cat /sys/class/power_supply/BAT1/status)
 
         if [ "$STATUS" = "Charging" ]; then
-            printf "^b#1e222a^^c#7eca9c^🔌 %s%% %s" "$CHARGE" "$STATUS"
+            printf "[Bat %s%% %s]" "$CHARGE" "$STATUS"
         else
-            printf "^b#1e222a^^c#7eca9c^ %s%% %s" "$CHARGE" "$STATUS"
+            printf "[Bat %s%% %s]" "$CHARGE" "$STATUS"
         fi
-    crit=$(bat)
-    if [[ $crit -lt 25 ]]; then
-            dunstify -u critical "☢  battery is critical"  #-h string:bgcolor:#e80e0e "battery is critical"
-    fi
 }
 
 dwm_battery

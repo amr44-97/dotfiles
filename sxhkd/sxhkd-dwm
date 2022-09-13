@@ -5,14 +5,13 @@
 
 #### programms
 super + shift + a
-    xfce4-terminal --command 'nnn -e'
+    alacritty --command 'nnn -e'
+
 super + a 
     alacritty --command nnn -e
 
-super +  bracket{right} 
-     alacritty --command pulsemixer
 super + w
-    firefox-bin 
+    chromium 
 
 super + Escape
      pkill -USR1 -x sxhkd
@@ -21,11 +20,16 @@ super + Escape
 super + e
 	emacs
 
+
+super + p
+	dmenu_run
+
+
 super +  semicolon 
    st -e nvim
 
 super + d 
-     thunar
+     nautilus
 
 #super + control + r
 #     polybar -r void
@@ -42,15 +46,14 @@ XF86AudioMute
 
 
 control + shift + F3
-     	kill -44 $(pidof dwmblocks)|xbacklight -inc 5
-
+     	         brightnessctl -d intel_backlight s 5%+
 
 
 control + shift + F2
-     	kill -44 $(pidof dwmblocks)|xbacklight -dec 5
+     	         brightnessctl -d intel_backlight s 5%-
 
-super + o
-	clipmenu
+#super + o
+#	clipmenu
 
 super + v
 	mpv $(xclip -o)

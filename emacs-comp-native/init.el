@@ -1,8 +1,6 @@
 
 (setq package-native-compile t)
 
-
-
 ;; Melpa ;; Org
 (require 'package)
 
@@ -369,7 +367,6 @@
 ;; elpy python
 
 ;; Enable elpy
-
 (elpy-enable)
 
 
@@ -378,24 +375,3 @@
 
 
 
-
-
-
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "246a9596178bb806c5f41e5b571546bb6e0f4bd41a9da0df5dfbca7ec6e2250c" "4f1d2476c290eaa5d9ab9d13b60f2c0f1c8fa7703596fa91b235db7f99a9441b" "c4063322b5011829f7fdd7509979b5823e8eea2abf1fe5572ec4b7af1dd78519" "e19ac4ef0f028f503b1ccafa7c337021834ce0d1a2bca03fcebc1ef635776bea" default))
- '(helm-minibuffer-history-key "M-p")
- '(package-selected-packages
-   '(neotree elpy vterm-toggle yasnippet-snippets flycheck lsp-ui rust-mode nim-mode helm-company which-key vertico use-package rainbow-delimiters lsp-mode irony helpful general evil-collection eglot doom-themes doom-modeline counsel company all-the-icons-dired))
- '(warning-suppress-types '(((defvaralias losing-value nim-nimsuggest-path)) (comp))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
