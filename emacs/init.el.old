@@ -1,0 +1,226 @@
+(setq inhibit-startup-message t)
+
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
+(scroll-bar-mode -1)
+(set-fringe-mode 10)
+(column-number-mode)
+
+(setq ring-bell-function 'ignore)
+
+
+;; Enable line numbers for some modes
+(dolist (mode '(text-mode-hook
+                prog-mode-hook
+                conf-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 1))))
+
+
+;; Show line numbers
+(global-display-line-numbers-mode 1)
+
+;; Theme - Font
+(load-theme 'modus-vivendi t)
+(set-face-attribute 'default nil :font "CaskaydiaCove Nerd Font" :height 120)
+
+(setq gc-cons-threshold (* 50 1000 1000))
+
+;; Profile emacs startup
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "*** Emacs loaded in %s with %d garbage collections."
+                     (format "%.2f seconds"
+                             (float-time
+                              (time-subtract after-init-time before-init-time)))
+                     gcs-done)))
+
+
+
+;; Silence compiler warnings as they can be pretty disruptive
+(setq native-comp-async-report-warnings-errors nil)
+
+;; Set the right directory to store the native comp cache
+(add-to-list 'native-comp-eln-load-path (expand-file-name "eln-cache/" user-emacs-directory))
+
+
+;;;;;;;;;;;
+
+(require 'package)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")))
+(package-initialize)
+(unless package-archive-contents
+(package-refresh-contents))
+
+
+;;; first do  package-install use-***
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+
+;; Initialize use-package on non-Linux platforms
+(unless (package-installed-p 'use-package)
+   (package-install 'use-package))
+
+(setq frame-resize-pixelwise t)
+
+
+
+(use-package doom-themes)
+
+(use-package nasm-mode)
+(add-to-list 'auto-mode-alist '("\\.asm\\'" . nasm-mode))
+
+
+;;;; Evil Mode
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 22)))
+
+
+;; Rainbow delimeters
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+;;
+;; Which Key
+(use-package which-key
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config
+  (setq which-key-idle-delay 1))
+;;
+;;;; Evil Mode
+;;
+(use-package evil
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-i-jump nil)
+  (evil-mode 1)
+  :config
+  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+
+  ;; Use visual line motions even outside of visual-line-mode buffers
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal))
+
+
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
+
+
+
+
+(use-package company
+  :ensure
+  :custom
+  (company-idle-delay 0.5) ;; how long to wait until popup
+  ;; (company-begin-commands nil) ;; uncomment to disable popup
+  :bind
+  (:map company-active-map
+	      ("<tab>". company-select-next)
+	      ("C-p". company-select-previous)
+	      ("M-<". company-select-first)
+	      ("M->". company-select-last)))
+ 
+
+
+ ;; Enable vertico
+;; (use-package vertico
+;;      :init
+;;      (vertico-mode))
+;;
+
+(use-package helm-company
+   :ensure t
+   :after (helm company)
+   :bind (("C-c C-;" . helm-company))
+   :commands (helm-company)
+   :init
+   (define-key company-mode-map (kbd "C-;") 'helm-company)
+   (define-key company-active-map (kbd "C-;") 'helm-company))
+
+
+
+;;(define-key vertico-map "?" #'minibuffer-completion-help)
+;;(define-key vertico-map (kbd "M-RET") #'minibuffer-force-complete-and-exit)
+;;(define-key vertico-map (kbd "M-TAB") #'minibuffer-complete)
+
+
+(setq completion-in-region-function
+      (lambda (&rest args)
+        (apply (if vertico-mode
+                   #'consult-completion-in-region
+                 #'completion--in-region)
+               args)))
+;;;; Company make faster 
+;;
+;;
+(setq company-backends '(company-capf
+                         company-keywords
+                         company-semantic
+                         company-files
+                         company-etags
+                         company-elisp
+                         company-clang
+                         company-irony-c-headers
+                         company-irony
+                         company-jedi
+         		 company-c-headers-path-system
+                         company-cmake
+                         company-ispell
+                         company-yasnippet))
+
+
+
+(setq company-tooltip-limit 20)
+(setq company-show-numbers t)
+(setq company-idle-delay 0)
+;;(setq company-echo-delay 0)
+(setq company-minimum-prefix-length 1)
+(setq company-selection-wrap-around t)
+;; Use tab key to cycle through suggestions.
+;; ('tng' means 'tab and go')
+(company-tng-configure-default)
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;  Keys ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(global-set-key (kbd "C-=")         'text-scale-increase)
+(global-set-key (kbd "C--")         'text-scale-decrease)
+(global-set-key (kbd "M-e")         'other-window)
+
+;;(evil-set-leader nil (kbd ";"))
+
+
+
+(use-package general)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages '(vterm use-package)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
