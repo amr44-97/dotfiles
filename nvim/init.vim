@@ -1,355 +1,392 @@
-" USE LUA
-set clipboard=unnamedplus
-" USE LUA
-" USE LUA
-" USE LUA
-filetype plugin indent on
-set guifont=Source\Code\Pro\Bold\:h17
-set encoding=utf-8
-set nohlsearch
-set termguicolors
-set noshowmode
-set autoindent
-set laststatus=2
-set expandtab
-set tabstop=4
-set shiftwidth=4
-set incsearch
-set shortmess+=c
-set complete-=i
-set nowrap
-set laststatus=2
-set wildmenu
-set scrolloff=15
-set number
-set noswapfile
-set noerrorbells
-set mouse=a
-set background=dark
-set title
-set shell=/bin/bash
+call plug#begin()
 
-
-call plug#begin('~/.vim/plugged')
-Plug 'neovim/nvim-lspconfig'
-Plug 'jackguo380/vim-lsp-cxx-highlight'
-"Plug 'itchyny/lightline.vim'
+Plug 'kien/ctrlp.vim'
+Plug 'nvim-tree/nvim-tree.lua'
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'fatih/vim-go'
-Plug 'vim-syntastic/syntastic'
-Plug 'morhetz/gruvbox'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'norcalli/nvim-colorizer.lua'
-Plug 'tpope/vim-fugitive'
-Plug 'junegunn/fzf'
-Plug 'liuchengxu/vim-which-key'
-Plug 'joshdick/onedark.vim'
-Plug 'preservim/nerdtree'
-Plug 'tomasr/molokai'
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'hrsh7th/nvim-compe'
-Plug 'ryanoasis/vim-devicons'
-Plug 'mcchrish/nnn.vim'
-Plug 'wolfgangmehner/lua-support'
+Plug 'tpope/vim-commentary'
+Plug 'easymotion/vim-easymotion'
+Plug 'tpope/vim-surround'
+Plug 'jiangmiao/auto-pairs'
+Plug 'mbbill/undotree'
+Plug 'liuchengxu/vim-clap'
+Plug 'wellle/targets.vim'
+Plug 'cespare/vim-toml'
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'vimwiki/vimwiki'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-Plug 'nvim-lua/telescope.nvim'
-Plug 'glepnir/dashboard-nvim'
-Plug 'romgrk/doom-one.vim'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-Plug 'ajh17/VimCompletesMe'
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" Rust 
-
-
-Plug 'simrat39/rust-tools.nvim'
-Plug 'hrsh7th/vim-vsnip'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-buffer'
-
-" Completion framework
-Plug 'hrsh7th/nvim-cmp'
-
-" LSP completion source for nvim-cmp
-Plug 'hrsh7th/cmp-nvim-lsp'
-
-" Snippet completion source for nvim-cmp
-Plug 'hrsh7th/cmp-vsnip'
-
-" Color scheme used in the GIFs!
-Plug 'arcticicestudio/nord-vim'
-
-""""""""""
-set shortmess+=c
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""" Nim
-Plug 'alaviss/nim.nvim'
-Plug 'prabirshrestha/asyncomplete.vim'
-
-""" Zig
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'Shougo/echodoc.vim'
 Plug 'ziglang/zig.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
-let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier']  " list of CoC extensions needed
-
-Plug 'jiangmiao/auto-pairs' "this will auto close ( [ {
-
-" these two plugins will add highlighting and indenting to JSX and TSX files.
-Plug 'yuezk/vim-js'
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'maxmellon/vim-jsx-pretty'
-
-
+Plug 'tpope/vim-fugitive'
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'romgrk/nvim-treesitter-context'
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'EdenEast/nightfox.nvim'
+Plug 'luisiacc/gruvbox-baby'
 
 call plug#end()
 
-tnoremap <Esc> <C-\><C-n>
-
-luafile /home/amr/.config/nvim/lua/plug-colorizer.lua
-
-
-""""""""" Theme
-colorscheme doom-one
-let g:doom_one_terminal_colors = v:true
-let mapleader = ";"
-"""""""""""""""""'' Terminal """""""""""""
-
-tnoremap <A-h> <C-\><C-N><C-w>h
-tnoremap <A-j> <C-\><C-N><C-w>j
-tnoremap <A-k> <C-\><C-N><C-w>k
-tnoremap <A-l> <C-\><C-N><C-w>l
-inoremap <A-h> <C-\><C-N><C-w>h
-inoremap <A-j> <C-\><C-N><C-w>j
-inoremap <A-k> <C-\><C-N><C-w>k
-inoremap <A-l> <C-\><C-N><C-w>l
-
-
-let g:dashboard_default_executive ='telescope'
-
-let g:neovide_transparency=0.95
-
-
-let g:dashboard_custom_shortcut={
-\ 'last_session'       : 'SPC s l',
-\ 'find_history'       : 'SPC f h',
-\ 'find_file'          : 'SPC f f',
-\ 'new_file'           : 'SPC c n',
-\ 'change_colorscheme' : 'SPC t c',
-\ 'find_word'          : 'SPC f a',
-\ 'book_marks'         : 'SPC f b',
-\ }
-
-
-let g:LanguageClient_serverCommands = {
-\   'nim': ['~/.nimble/bin/nimlsp'],
-\   'rust': ['~/.cargo/bin/rust-analyzer'],
-\ }
-
-let g:dashboard_custom_shortcut['last_session'] = ' '
-let g:dashboard_custom_shortcut['find_history'] = 'ﭯ '
-let g:dashboard_custom_shortcut['find_file'] = ' '
-let g:dashboard_custom_shortcut['new_file'] = ' '
-let g:dashboard_custom_shortcut['change_colorscheme'] = ' '
-let g:dashboard_custom_shortcut['find_word'] = ' '
-let g:dashboard_custom_shortcut['book_marks'] = ' '
-
-
-"" Lightline
-"let g:lightline = {
-"      \ 'colorscheme': 'powerline',
-"      \ }
+" Kitty terminal emulator hotfix
+let &t_ut=''
 
 "
-"////////////////////// Airline neovim \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+" suppress the annoying 'match x of y', 'The only match' and 'Pattern not
+" found' messages
+set shortmess+=c
 
-let g:airline#extensions#tabline#enabled = 1 " Enable the list of buffers
+" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+inoremap <c-c> <ESC>
 
-let g:airline#extensions#tabline#formatter = 'default'  " f/p/file-name.js
-let g:airline#extensions#tabline#formatter = 'jsformatter' " path-to/f
-let g:airline#extensions#tabline#formatter = 'unique_tail' " file-name.js
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved' " f/p/file-name.js
+" Hit return to clear search highlight. Thanks, Zdenek Sekera!
+nnoremap <silent> <CR> :nohlsearch<CR>
+vnorem // y/<c-r>"<cr>
 
-let g:airline_theme='tomorrow'
-
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
+" Undotree
+nnoremap <F5> :UndotreeToggle<CR>
+if has("persistent_undo")
+  set undodir=~/.vim/tmp/undodir
+  set undofile
 endif
 
-" powerline symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = '☰ '
-let g:airline_symbols.maxlinenr = ''
-let g:airline_symbols.dirty='⚡'
+set bg=dark
+colorscheme gruvbox-baby
+
+set encoding=utf-8
+
+" Soft wrap
+set linebreak
+set smartindent
+set nolist                        " breaks soft wrap :(
+" Rest based on http://git.wincent.com/wincent.git/blob_plain/HEAD:/.vimrc
+set nocompatible                  " just in case system-wide vimrc has set this otherwise
+set hlsearch                      " highlight search strings
+set incsearch                     " incremental search ("find as you type")
+set ignorecase                    " ignore case when searching
+set smartcase                     " except when search string includes a capital letter
+set number                        " show line numbers in gutter
+set laststatus=2                  " always show status line
+set ww=h,l,<,>,[,]                " allow h/l/left/right to cross line boundaries
+set autoread                      " if not changed in Vim, automatically pick up changes after "git co" etc
+set guioptions-=T                 " don't show toolbar
+set hidden                        " allows you to hide buffers with unsaved changes without being prompted
+set wildmenu                      " show options as list when switching buffers etc
+set wildmode=longest:full,full    " shell-like autocomplete to unambiguous portion
+set history=1000                  " longer search and command history (default is 20)
+set scrolloff=3                   " start scrolling 3 lines before edge of viewport
+set backupdir=~/.vim/tmp/backup,. " keep backup files out of the way
+set directory=~/.vim/tmp/swap,.   " keep swap files out of the way
+set ttimeoutlen=50                " speed up O etc in the Terminal
+set virtualedit=block             " allow cursor to move where there is no text in visual block mode
+set showmatch                     " show matching brackets
+" set showcmd                       " extra info in command line
+set nojoinspaces                  " don't autoinsert two spaces after '.', '?', '!' for join command
+set wildignore+=*.o               " don't offer to autocomplete object files
+set cc=120
+set switchbuf=useopen,usetab
+set splitbelow
+set splitright
+set relativenumber
+
+autocmd FileType * setlocal formatoptions=tcroql
+
+" set shell=/bin/zsh
+
+" statusline
+" cf the default statusline: %<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+" format markers:
+"   %< truncation point
+"   %n buffer number
+"   %f relative path to file
+"   %m modified flag [+] (modified), [-] (unmodifiable) or nothing
+"   %r readonly flag [RO]
+"   %y filetype [ruby]
+"   %= split point for left and right justification
+"   %-35. width specification
+"   %l current line number
+"   %L number of lines in buffer
+"   %c current column number
+"   %V current virtual column number (-n), if different from %c
+"   %P percentage through buffer
+"   %) end of width specification
+set statusline=%<\ %n:%f\ %m%r%y%=%-35.(line:\ %l\ of\ %L,\ col:\ %c%V\ (%P)%)
+
+" Configure airline
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+
+" all languages
+set shiftwidth=2                  " spaces per tab (when shifting)
+set tabstop=2                     " spaces per tab
+set expandtab                     " always use spaces instead of tabs
+set smarttab                      " <tab> key
+set autoindent
+set backspace=indent,eol,start
+
+" Rust
+autocmd FileType rust set tabstop=4
+autocmd FileType rust set shiftwidth=4
+
+"map <Space> <Leader>
+let mapleader = ";"
+
+" Auto-pairs
+let g:AutoPairsShortcutToggle = '<leader>p'
+let g:AutoPairsShortcutFastWrap = '<leader>e'
+let g:AutoPairShortcutJump = '<leader>n'
+
+""EasyMotion
+" Bi-directional find motion
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+nmap s <Plug>(easymotion-s)
+" or
+" `s{char}{char}{label}`
+" Need one more keystroke, but on average, it may be more comfortable.
+nmap s <Plug>(easymotion-s2)
+
+" Turn on case sensitive feature
+let g:EasyMotion_smartcase = 1
+
+" JK motions: Line motions
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
 
 
+" Disable right hand scroll bar
+set guioptions-=r
+set clipboard=unnamedplus
+" Required for operations modifying multiple buffers like rename.
+set hidden
 
+set cmdheight=2
+let g:echodoc#enable_at_startup=1
+let g:echodoc#type = 'signature'
 
+" Some servers have issues with backup files, see #649
+set nobackup
+set nowritebackup
 
-" template for some vim commands
-"nnoremap silent> <keys> <cmd>command<CR>
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
 
-"nnoremap <silent>y<cmd>:!xclip -f -i -selection clipboard<CR>
-" My Key bindings
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
+au InsertLeave * set nopaste
+
+" Find files using Telescope command-line sugar.
+nnoremap <Leader>ff <cmd>Telescope find_files<cr>
+nnoremap <Leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <Leader>fb <cmd>Telescope buffers<cr>
+nnoremap <Leader>fh <cmd>Telescope help_tags<cr>
+
 nnoremap <C-f> :FZF <CR>
-nnoremap <leader>s <cmd>NERDTree <CR>
+nnoremap <leader>s <cmd>NvimTreeToggle <CR>
+nnoremap <leader>c <cmd>:make <CR>
 nnoremap <A-t> :tabnew <CR>
 nnoremap <A-q> :tabprev <CR>
 nnoremap <A-e> :tabnext <CR>
-nnoremap <A-d> :belowright new term://bash<CR>
+nnoremap <A-d> :belowright new term://fish<CR>
 nnoremap <A-c> :tabclose <CR>
 nnoremap <C-s>:source %<CR>
-nnoremap <silent>dq <cmd>:q!<CR>
-nnoremap <A-w>:w! <CR>
-nnoremap <silent>wq <cmd>:wq<CR>
-nnoremap <silent>sw <cmd>:source ~/.config/nvim/init.vim<CR>
-nnoremap <leader>t :vertical terminal<CR>
-nnoremap <leader>f <cmd>NnnPicker<cr>
-
-"""""""""""""" NnnPicker
-let g:nnn#command = 'nnn -e'
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" c++ syntax highlighting
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_class_decl_highlight = 1
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-     \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-   if has("nvim-0.5.0") || has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-    set signcolumn=number
-        else
-    set signcolumn=yes
-       endif
-
-"" Nim setup
-
-"au User asyncomplete_setup call asyncomplete#register_source({
-"    \ 'name': 'nim',
-"    \ 'whitelist': ['nim'],
-"    \ 'completor': {opt, ctx -> nim#suggest#sug#GetAllCandidates({start, candidates -> asyncomplete#complete(opt['name'], ctx, start, candidates)})}
-"    \ })
-
-
-let g:asyncomplete_auto_popup = 0
-
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ asyncomplete#force_refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" allow modifying the completeopt variable, or it will
-" be overridden all the time
-let g:asyncomplete_auto_completeopt = 0
-
-set completeopt=menuone,noinsert,noselect,preview
-
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-
-
-if executable('nimlsp')
-    " pip install python-language-server
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'nimlsp',
-        \ 'cmd': {server_info->['nimlsp']},
-        \ 'allowlist': ['nim'],
-        \ })
-endif
-
-
-
-""""""""""""""""""""""""' Rust 
-
-
-lua <<EOF
-local nvim_lsp = require'lspconfig'
-
-local opts = {
-    tools = { -- rust-tools options
-        autoSetHints = true,
-        hover_with_actions = true,
-        inlay_hints = {
-            show_parameter_hints = false,
-            parameter_hints_prefix = "",
-            other_hints_prefix = "",
-        },
-    },
-
-    -- all the opts to send to nvim-lspconfig
-    -- these override the defaults set by rust-tools.nvim
-    -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
-    server = {
-        -- on_attach is a callback called when the language server attachs to the buffer
-        -- on_attach = on_attach,
-        settings = {
-            -- to enable rust-analyzer settings visit:
-            -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
-            ["rust-analyzer"] = {
-                -- enable clippy on save
-                checkOnSave = {
-                    command = "clippy"
-                },
-            }
-        }
-    },
+:lua << EOF
+local additional_filetypes = {
+  extension = { ['zig'] = [[zig]], }
 }
-
+require'plenary.filetype'.add_table(additional_filetypes)
 EOF
 
-"""Setup Completion
-" See https://github.com/hrsh7th/nvim-cmp#basic-configuration
+nmap <Leader><Space> :Clap buffers<CR>
+" We need this to actually close Clap in the event we pull out prematurely and
+" just wanna exit.
+autocmd FileType clap_input inoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
 
+" lspconfig
+:lua << EOF
+    local opts = { noremap=true, silent=true }
+    vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+    vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+    vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+    vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 
+    local on_attach = function(client, bufnr)
+      vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    end
 
+    local lspconfig = require('lspconfig')
 
+    local servers = {'zls'}
+    for _, lsp in ipairs(servers) do
+        lspconfig[lsp].setup {
+            on_attach = on_attach,
+            flags = {
+              debounce_text_changes = 150,
+            }
+        }
+    end
+EOF
 
+" Tree-sitter
+:lua << EOF
+require'nvim-treesitter.configs'.setup {
+  textobjects = {
+    select = {
+      enable = true,
+      keymaps = {
+        -- You can use the capture groups defined in textobjects.scm
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+      },
+    },
+    move = {
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        ["]m"] = "@function.outer",
+        ["]]"] = "@class.outer",
+      },
+      goto_next_end = {
+        ["]M"] = "@function.outer",
+        ["]["] = "@class.outer",
+      },
+      goto_previous_start = {
+        ["[m"] = "@function.outer",
+        ["[["] = "@class.outer",
+      },
+      goto_previous_end = {
+        ["[M"] = "@function.outer",
+        ["[]"] = "@class.outer",
+      },
+    },
+  },
+}
+EOF
 
+" Tree-sitter context
+:lua << EOF
+require'treesitter-context'.setup{
+    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+    throttle = true, -- Throttles plugin updates (may improve performance)
+    max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+    patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+        -- For all filetypes
+        -- Note that setting an entry here replaces all other patterns for this entry.
+        -- By setting the 'default' entry below, you can control which nodes you want to
+        -- appear in the context window.
+        default = {
+            'class',
+            'function',
+            'method',
+        },
 
+        zig = {
+            'TopLevelDecl',
+            'Statement',
+            'SwitchProng',
+        },
+        -- Example for a specific filetype.
+        -- If a pattern is missing, *open a PR* so everyone can benefit.
+        --   rust = {
+        --       'impl_item',
+        --   },
+    },
+    exact_patterns = {
+        -- Example for a specific filetype with Lua patterns
+        -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
+        -- exactly match "impl_item" only)
+        -- rust = true,
+    }
+}
+EOF
+
+" Completion stuff
+:lua << EOF
+require("nvim-tree").setup()
+-- Add additional capabilities supported by nvim-cmp
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+local lspconfig = require('lspconfig')
+
+-- Enable some language servers with the additional completion capabilities offered by nvim-cmp
+local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver' }
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    -- on_attach = my_custom_on_attach,
+    capabilities = capabilities,
+  }
+end
+
+-- luasnip setup
+local luasnip = require 'luasnip'
+
+-- nvim-cmp setup
+local cmp = require 'cmp'
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end,
+    ['<S-Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end,
+  },
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  },
+}
+EOF
