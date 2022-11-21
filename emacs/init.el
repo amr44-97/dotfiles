@@ -1,3 +1,4 @@
+(setq user-full-name "Amr Maharek")
 (setq inhibit-startup-message t)
 
 (menu-bar-mode -1)
@@ -9,7 +10,6 @@
 
 (setq ring-bell-function 'ignore)
 
-
 ;; Profile emacs startup
 (add-hook 'emacs-startup-hook
           (lambda ()
@@ -18,8 +18,6 @@
                              (float-time
                               (time-subtract after-init-time before-init-time)))
                      gcs-done)))
-
-
 
 ;; Silence compiler warnings as they can be pretty disruptive
 (setq native-comp-async-report-warnings-errors nil)
@@ -31,14 +29,14 @@
                 conf-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 1))))
 
+(dolist (mode '(org-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; Show line numbers
 (global-display-line-numbers-mode 1)
-
 ;; Theme - Font
-(load-theme 'modus-vivendi t)
 (set-face-attribute 'default nil :font "CaskaydiaCove Nerd Font" :height 120)
-
+(load-theme 'modus-vivendi t)
 
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -48,8 +46,6 @@
 (package-initialize)
 (unless package-archive-contents
 (package-refresh-contents))
-
-
 
 
 (setq package-selected-packages '(lsp-mode yasnippet lsp-treemacs 
@@ -74,15 +70,6 @@
 (use-package vertico
   :init
   (vertico-mode)
-
-  ;; Different scroll margin
-  ;; (setq vertico-scroll-margin 0)
-
-  ;; Show more candidates
-  ;; (setq vertico-count 20)
-
-  ;; Grow and shrink the Vertico minibuffer
-  ;; (setq vertico-resize t)
 
   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
    (setq vertico-cycle t)
@@ -111,27 +98,40 @@
         '(read-only t cursor-intangible t face minibuffer-prompt))
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-  ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
-  ;; Vertico commands are hidden in normal buffers.
-  ;; (setq read-extended-command-predicate
-  ;;       #'command-completion-default-include-p)
-
   ;; Enable recursive minibuffers
   (setq enable-recursive-minibuffers t))
 
-
 (define-key vertico-map "?" #'minibuffer-completion-help)
 (define-key vertico-map (kbd "M-RET") #'minibuffer-force-complete-and-exit)
-(define-key vertico-map (kbd "M-TAB") #'minibuffer-scroll-down-command)
-
-
+;(define-key vertico-map (kbd "M-TAB") #'minibuffer-scroll-down-command)
 
 (use-package all-the-icons
   :ensure t)
+
+(use-package minions
+  :hook (doom-modeline-mode . minions-mode))
+
 (use-package doom-modeline
   :ensure t
-  :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 20)))
+  :hook (after-init  . doom-modeline-mode)
+  :custom-face
+  (mode-line ((t (:height 0.90))))
+  (mode-line-inactive ((t (:height 0.85))))
+  :custom
+  (doom-modeline-height 15)
+  (doom-modeline-bar-width 6)
+  (doom-modeline-lsp t)
+  (doom-modeline-github nil)
+  (doom-modeline-mu4e nil)
+  (doom-modeline-irc nil)
+  (doom-modeline-minor-modes t)
+  (doom-modeline-persp-name nil)
+  (doom-modeline-buffer-file-name-style 'truncate-except-project)
+  (doom-modeline-major-mode-icon t)
+  (setq doom-modeline-buffer-state-icon t)
+  (doom-modeline-icon t))
+
+
 
 (setq doom-modeline-time t)
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
@@ -146,7 +146,6 @@
   (mapc #'package-install package-selected-packages))
 
 (use-package zig-mode)
-
 
 (which-key-mode)
 (add-hook 'c-mode-hook 'lsp)
@@ -169,10 +168,31 @@
   (yas-global-mode))
 
 
+
+(add-hook 'after-init-hook 'global-company-mode)
+(use-package counsel
+  :bind
+         (("C-x b" . counsel-ibuffer)
+         ("C-x C-f" . counsel-find-file)
+         :map minibuffer-local-map
+         ("C-r" . 'counsel-minibuffer-history)))
+;; helpful ui
+(use-package helpful
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable)
+  :bind
+  ([remap describe-function] . counsel-describe-function)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-variable] . counsel-describe-variable)
+  ([remap describe-key] . helpful-key))
+
+
+
 ;;;; Evil Mode
 
 (use-package evil
-  :init
+  :init (setq evil-want-C-i-jump nil)
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
   (setq evil-want-C-u-scroll t)
@@ -195,6 +215,56 @@
   :config
   (evil-collection-init))
 
+;; UI Transparency 
+ 
+(set-frame-parameter (selected-frame) 'alpha '(85 . 85))
+(add-to-list 'default-frame-alist '(alpha . (85 . 85)))
+(set-frame-parameter (selected-frame) 'fullscreen 'maximized)
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Org Setup
+
+(setq org-hide-emphasis-markers t)
+ (font-lock-add-keywords 'org-mode
+                          '(("^ *\\([-]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+(use-package org-bullets
+   :config
+   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+ (use-package org-roam
+  :ensure t
+  :custom
+  (org-roam-directory (file-truename "~/RoamNotes"))
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n g" . org-roam-graph)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture)
+         ;; Dailies
+         ("C-c n j" . org-roam-dailies-capture-today))
+  :config
+  ;; If you're using a vertical completion framework, you might want a more informative completion interface
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (org-roam-db-autosync-mode)
+  ;; If using org-roam-protocol
+  (require 'org-roam-protocol))
+
+
+;(setq org-src-preserve-indentation t)
+(add-hook 'org-mode-hook #'evil-normalize-keymaps)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+					; PDF Tools
+(use-package pdf-tools)
+(pdf-tools-install)  ; Standard activation command
+(pdf-loader-install) ; On demand loading, leads to faster startup time
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Magit 
 (use-package magit
@@ -202,36 +272,26 @@
 
 
 ;;;;;;  KeyMaps
-
-
 (global-set-key (kbd "<escape>")    'keyboard-escape-quit)
 (global-set-key (kbd "C-=")         'text-scale-increase)
 (global-set-key (kbd "C--")         'text-scale-decrease)
 (global-set-key (kbd "M-t")         'tab-new)
 (global-set-key (kbd "M-e")         'tab-next)
 (global-set-key (kbd "C-c f p")         (lambda() (interactive)(find-file "~/.config/emacs/init.el")))
+(global-set-key (kbd "C-c r r")         'eval-buffer)
 
 (define-key evil-motion-state-map (kbd "SPC") nil)
 
 (define-key evil-motion-state-map (kbd "SPC f p ") (lambda() (interactive)(find-file "~/.config/emacs/init.el")))
 (define-key evil-motion-state-map (kbd "SPC .") 'find-file )
+(define-key evil-motion-state-map (kbd "SPC c c") 'compile )
 
 
 
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" "aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8" "944d52450c57b7cbba08f9b3d08095eb7a5541b0ecfb3a0a9ecd4a18f3c28948" "6945dadc749ac5cbd47012cad836f92aea9ebec9f504d32fe89a956260773ca4" default))
- '(helm-minibuffer-history-key "M-p")
- '(package-selected-packages
-   '(all-the-icons-ibuffer all-the-icons-dired magit lsp-mode yasnippet lsp-treemacs projectile hydra flycheck company avy which-key dap-mode)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;;;;;;;;;;;;;;;;;;;;;;
+;;;; Daemon Settings
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+	      (lambda (frame)
+		(setq doom-modeline-icon t)
+		(interactive) (load-file "~/.config/emacs/setup/emacs-server-frame.el"))))
