@@ -38,7 +38,7 @@
 
 ;; Font Configuration ----------------------------------------------------------
 
-(set-face-attribute 'default nil :font  "UbuntuMono Nerd Font " :weight 'semi-bold :height 134)
+(set-face-attribute 'default nil :font  "CaskaydiaCove Nerd Font" :height 134)
 
 ;; Themes
 (use-package doom-themes
