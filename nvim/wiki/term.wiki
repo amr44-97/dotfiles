@@ -1,8 +1,0 @@
-= terminal problems =
-
-* How to open terminal in split 
-    
-    :vsplit term://bash
-    
-    autocmd VimEnter * ++nested split term://sh
-
