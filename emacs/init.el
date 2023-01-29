@@ -36,11 +36,6 @@
 
 ;; Show line numbers
 (global-display-line-numbers-mode 1)
-;; Theme - Font
-(set-face-attribute 'default nil :font "CaskaydiaCove Nerd Font" :height 120)
-;(load-theme 'modus-vivendi t)
-;(load-theme 'doom-solarized-dark-high-contrast t)
-(load-theme 'doom-solarized-dark t)
 
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -65,6 +60,14 @@
 (setq frame-resize-pixelwise t)
 
 (use-package doom-themes)
+
+;; Theme - Font
+(set-face-attribute 'default nil :font "JetBrainsMonoNL Nerd Font " :height 120)
+;(load-theme 'modus-vivendi t)
+(load-theme 'doom-solarized-dark-high-contrast t)
+;(load-theme 'doom-solarized-dark t)
+
+
 
 (use-package nasm-mode)
 (add-to-list 'auto-mode-alist '("\\.asm\\'" . nasm-mode))
@@ -125,17 +128,17 @@
 (use-package all-the-icons
   :ensure t)
 
-;(use-package minions
-;  :hook (doom-modeline-mode . minions-mode))
+(use-package minions
+  :hook (doom-modeline-mode . minions-mode))
 
 (use-package doom-modeline
   :ensure t
-  :hook (after-init  . doom-modeline-mode))
+  :hook (after-init  . doom-modeline-mode)
 ;  :custom-face
 ;  (mode-line ((t (:height 0.90))))
 ;  (mode-line-inactive ((t (:height 0.85))))
-;  :custom
-; (doom-modeline-height 15)
+  :custom
+ (doom-modeline-time t))
 ; (doom-modeline-bar-width 6)
 ; (doom-modeline-lsp t)
 ; (doom-modeline-github nil)
@@ -147,10 +150,8 @@
 ; (doom-modeline-major-mode-icon t)
 ; (setq doom-modeline-buffer-state-icon t)
 ; (doom-modeline-icon t))
+(use-package all-the-icons-dired )
 
-
-
-(setq doom-modeline-time t)
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
 ;; Rainbow delimeters
@@ -241,10 +242,65 @@
 
 ;; UI Transparency 
  
-(set-frame-parameter (selected-frame) 'alpha '(85 . 85))
+(set-frame-parameter (selected-frame) 'alpha '(90 . 90))
 (add-to-list 'default-frame-alist '(alpha . (85 . 85)))
-(set-frame-parameter (selected-frame) 'fullscreen 'maximized)
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+;;(set-frame-parameter (selected-frame) 'fullscreen 'maximized)
+;;(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+
+;; multivterm
+(use-package multi-vterm
+	:config
+	(add-hook 'vterm-mode-hook
+			(lambda ()
+			(setq-local evil-insert-state-cursor 'box)
+			(evil-insert-state)))
+	(define-key vterm-mode-map [return]                      #'vterm-send-return)
+
+	(setq vterm-keymap-exceptions nil)
+        (setq multi-vterm-dedicated-window-height-percent 30)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-e")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-f")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-a")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-v")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-b")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-w")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-u")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-n")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-m")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-p")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-j")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-k")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-r")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-t")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-g")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-c")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-SPC")    #'vterm--self-insert)
+	(evil-define-key 'normal vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
+	(evil-define-key 'normal vterm-mode-map (kbd ",c")       #'multi-vterm)
+	(evil-define-key 'normal vterm-mode-map (kbd ",n")       #'multi-vterm-next)
+	(evil-define-key 'normal vterm-mode-map (kbd ",p")       #'multi-vterm-prev)
+	(evil-define-key 'normal vterm-mode-map (kbd "i")        #'evil-insert-resume)
+	(evil-define-key 'normal vterm-mode-map (kbd "o")        #'evil-insert-resume)
+	(evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume))
+
+
+;; Change Compilation buffer
+(setq compilation-window-height 8)
+(defun my-compilation-hook ()
+  (when (not (get-buffer-window "*compilation*"))
+    (save-selected-window
+      (save-excursion
+        (let* ((w (split-window-vertically))
+               (h (window-height w)))
+          (select-window w)
+          (switch-to-buffer "*compilation*")
+          (shrink-window (- h compilation-window-height)))))))
+(add-hook 'compilation-mode-hook 'my-compilation-hook)
+
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org Setup
@@ -294,17 +350,21 @@
 (use-package magit
   :ensure t)
 
-
 ;;;;;;  KeyMaps
+
 (global-set-key (kbd "<escape>")    'keyboard-escape-quit)
 (global-set-key (kbd "C-=")         'text-scale-increase)
-(global-set-key (kbd "C--")         'text-scale-decrease)
+(global-set-key(kbd "C--")         'text-scale-decrease)
 (global-set-key (kbd "M-t")         'tab-new)
 (global-set-key (kbd "M-e")         'tab-next)
+(global-set-key (kbd "M-d")         'multi-vterm-dedicated-toggle)
+;;(global-set-key (kbd "C-q")         'tab-bar-close-tab)
 (global-set-key (kbd "C-c f p")         (lambda() (interactive)(find-file "~/.config/emacs/init.el")))
 (global-set-key (kbd "C-c r r")         'eval-buffer)
 
 (define-key evil-motion-state-map (kbd "SPC") nil)
+
+(define-key evil-motion-state-map (kbd "C q") 'kill-current-buffer )
 
 (define-key evil-motion-state-map (kbd "SPC f p ") (lambda() (interactive)(find-file "~/.config/emacs/init.el")))
 (define-key evil-motion-state-map (kbd "SPC .") 'find-file )
@@ -328,7 +388,7 @@
  '(custom-safe-themes
    '("251ed7ecd97af314cd77b07359a09da12dcd97be35e3ab761d4a92d8d8cf9a71" "636b135e4b7c86ac41375da39ade929e2bd6439de8901f53f88fde7dd5ac3561" "0c08a5c3c2a72e3ca806a29302ef942335292a80c2934c1123e8c732bb2ddd77" "680f62b751481cc5b5b44aeab824e5683cf13792c006aeba1c25ce2d89826426" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" "00cec71d41047ebabeb310a325c365d5bc4b7fab0a681a2a108d32fb161b4006" "afa47084cb0beb684281f480aa84dab7c9170b084423c7f87ba755b15f6776ef" default))
  '(package-selected-packages
-   '(vterm-toggle all-the-icons-dired lsp-mode yasnippet lsp-treemacs projectile hydra flycheck company avy which-key dap-mode php-mode)))
+   '(multi-vterm vterm-toggle all-the-icons-dired lsp-mode yasnippet lsp-treemacs projectile hydra flycheck company avy which-key dap-mode php-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
