@@ -26,6 +26,7 @@
 
 
 (straight-use-package 'doom-themes)
+(straight-use-package 'solarized-theme)
 (straight-use-package 'zig-mode)
 (use-package nix-mode
   :mode "\\.nix\\'")
@@ -37,8 +38,8 @@
 (yas-global-mode 1)
 
 ;; doom themes
-(load-theme 'doom-gruvbox t)
-(set-face-attribute 'default nil :font "JetBrainsMono Nerd Font" :height 100)
+(load-theme 'doom-solarized-dark-high-contrast t)
+(set-face-attribute 'default nil :font "CaskaydiaCove Nerd Font" :height 100 :weight 'semi-bold)
 (global-hl-line-mode t)
 
 
