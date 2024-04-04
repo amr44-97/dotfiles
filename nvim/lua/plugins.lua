@@ -15,7 +15,7 @@ vim.g.mapleader = ";"
 
 require("lazy").setup({
 
-	{ "folke/neoconf.nvim", cmd = "Neoconf" },
+	{ "folke/neoconf.nvim",      cmd = "Neoconf" },
 	"folke/neodev.nvim",
 	{
 		'ishan9299/modus-theme-vim',
@@ -28,11 +28,11 @@ require("lazy").setup({
 	},
 
 	'ziglang/zig.vim',
-    {
-    'nvim-telescope/telescope.nvim', tag = '0.1.1',
--- or                              , branch = '0.1.1',
-      dependencies = { 'nvim-lua/plenary.nvim' }
-    },
+
+	{
+		'nvim-telescope/telescope.nvim',
+		dependencies = { 'nvim-lua/plenary.nvim' }
+	},
 
 	{
 		"windwp/nvim-autopairs",
@@ -68,7 +68,6 @@ require("lazy").setup({
 				return
 			end
 			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done { map_char = { tex = "" } })
-
 		end,
 	},
 
@@ -88,17 +87,12 @@ require("lazy").setup({
 	'hrsh7th/cmp-cmdline',
 	'hrsh7th/nvim-cmp',
 	'hrsh7th/cmp-vsnip',
-    'hrsh7th/vim-vsnip',
+	'hrsh7th/vim-vsnip',
 	'hrsh7th/vim-vsnip-integ',
 	--'L3MON4D3/LuaSnip',
 	-- 'saadparwaiz1/cmp_luasnip',
 
-	{
-		"akinsho/toggleterm.nvim", tag = '*',
-		config = function()
-			require("toggleterm").setup()
-		end,
-	},
+	{ 'akinsho/toggleterm.nvim', version = "*",  config = true },
 
 	{
 		"X3eRo0/dired.nvim",
@@ -132,20 +126,12 @@ require("lazy").setup({
 		end,
 	},
 
-	-- {
-	--  'nvim-tree/nvim-tree.lua',
-	--  dependencies = {
-	--    'nvim-tree/nvim-web-devicons', -- optional, for file icons
-	--  	},
-	-- config = function()
-	-- 	vim.g.loaded_netrw = 1
-	-- 	vim.g.loaded_netrwPlugin = 1
-	--     require("nvim-tree").setup()
-	-- end,
-	--  },
-
-
-
+	{
+		'nvim-tree/nvim-web-devicons',
+		config = function()
+			require('nvim-web-devicons').setup {}
+		end,
+	},
 
 
 })
